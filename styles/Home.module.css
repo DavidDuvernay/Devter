@@ -1,0 +1,26 @@
+.imgLogo {
+  width: 120px;
+}
+
+.h1Title {
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.h2Title {
+  color: var(--secondary);
+  font-size: 18px;
+  margin: 0
+}
+
+.mainSection {
+  display: grid;
+  height: 80vh;
+  place-content: center;
+  place-items: center;
+}
+
+.buttonDiv {
+  margin-top: 8px;
+}

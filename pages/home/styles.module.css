@@ -1,0 +1,26 @@
+.header {
+  border-bottom: 1px solid #ccc;
+  height: 49px;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  top: 0;
+  width: 100%;
+}
+
+.nav {
+  border-top: 1px solid #ccc;
+  bottom: 0;
+  height: 49px;
+  position: sticky;
+  width: 100%;
+}
+
+.section {
+  padding-top: 49px;
+}
+
+.h2 {
+  font-size:  21px;
+  font-weight: 800;
+}
