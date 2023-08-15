@@ -3,25 +3,35 @@
   --secondary: #09f;
   --black: #000000;
   --white: #ffffff;
+  --fonts-base: system-ui, -apple-system, BlinkMaxSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 
 html, body {
   padding: 0;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMaxSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  font-family: var(--fonts-base);
   background-image: 
     radial-gradient(#0049ff2d 1px, #fdfdfd 1px),
     radial-gradient(#0049ff2d 1px, #fdfdfd 1px);
   background-position: 0 0 , 25px 25px;
   background-size: 50px 50px;
+  overflow: hidden;
 }
 
 body {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 10px 25px #0000001c;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  width: 100vw
+  overflow-y: auto;
+  position: relative;
+  width: 100vw;
+}
+
+textarea, input {
+  font-family: var(--fonts-base);
 }
 
 @media (min-width: 520px){

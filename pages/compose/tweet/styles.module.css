@@ -1,0 +1,56 @@
+.form {
+  padding: 10px;
+}
+
+.textarea {
+  border: 3px solid transparent;
+  border-radius: 10px;
+  font-size: 21px;
+  min-height: 200px;
+  padding: 15px;
+  resize: none;
+  outline: 0;
+  width: -webkit-fill-available;
+}
+
+.on_drag {
+  border: 3px dashed #09f;
+}
+
+.div {
+  padding: 15px;
+}
+
+.img {
+  border-radius: 10px;
+  height: auto;
+  width: 100%;
+}
+
+.form_container {
+  align-items: flex-start;
+  display: flex;
+}
+
+.avatar_container {
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+.remove_image {
+  position: relative;
+
+}
+
+.button {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 999px;
+  border: 0;
+  color: #fff;
+  font-size: 24px;
+  height: 32px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 32px;
+}

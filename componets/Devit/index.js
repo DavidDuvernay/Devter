@@ -1,16 +1,32 @@
+import useTimeAgo from "@/hooks/useTimeAgo";
 import Avatar from "../Avatar";
 import styles from "./styles.module.css"
 
-export default function Devit({ avatar, username, message, id }) {
+export default function Devit({
+  avatar,
+  content,
+  createdAt,
+  id,
+  img,
+  userId,
+  userName,
+}) {
+
+  const timeAgo = useTimeAgo(createdAt)
   return (
     <>
       <article className={styles.article}>
         <div className={styles.div}>
-        <Avatar alt={username} src={avatar} />
+          <Avatar alt={userName} src={avatar} />
         </div>
         <section>
-          <strong>{username}</strong>
-          <p className={styles.p}>{message}</p>
+          <header>
+          <strong>{userName}</strong>
+          <span> · </span>
+          <time className={styles.date}>{timeAgo}</time>
+          </header>
+          <p className={styles.p}>{content}</p>
+          {img && <img className={styles.img} src={img} />}
         </section>
       </article>
     </>

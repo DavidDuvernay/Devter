@@ -5,24 +5,20 @@ import Button from '@/componets/Button'
 import GitHub from '@/componets/Icons/GitHub'
 import { loginWithGithub, onAuthStateChanged } from '@/firebase/client'
 import { useEffect, useState } from 'react'
-import Avatar from '@/componets/Avatar'
 import Logo from '@/componets/Icons/Logo'
-
-const inter = Inter({ subsets: ['latin'] })
+import { useRouter } from 'next/router'
+import useUser, { USER_STATES } from '@/hooks/useUsers'
 
 export default function Home() {
-  const [user, setUser] = useState(undefined);
+  const user = useUser();
+  const router = useRouter();
 
   useEffect(() => {
-    onAuthStateChanged(setUser)
-  }, [])
+    user && router.replace("/home")
+  }, [user])
 
   const handleClick = () => {
     loginWithGithub()
-      .then(user => {
-        // const { avatar, username, email } = user
-        setUser(user)
-      })
       .catch(err => {
         console.log(err)
       })
@@ -37,33 +33,22 @@ export default function Home() {
       </Head>
       <main >
         <section className={styles.mainSection}>
-          {/* <img className={styles.imgLogo} src="/development-logo.png" alt="logo" /> */}
           <Logo  width="100"/>
           <h1 className={styles.h1Title}>Devter</h1>
           <h2 className={styles.h2Title}>Talk about development <br /> with developers 👨‍💻👩‍💻</h2>
 
           <div className={styles.buttonDiv}>
             {
-              user === null &&
+              user === USER_STATES.NOT_LOGGED &&
               <Button onClick={handleClick}>
                 <GitHub fill="#fff" height={24} width={24} />
                 Login with Github
               </Button>
             }
-            {
-              user && user.avatar && (
-                <div>
-                  <Avatar 
-                    alt="avatar" 
-                    src={user.avatar} 
-                    text={user.username}
-                  />
-                </div>
-              )}
+            { user === USER_STATES.NOT_KNOWN && <img src="/spinner.gif"/> }
           </div>
 
         </section>
-        {/* <Link href="/timeline">timeline</Link> */}
       </main>
     </>
   )

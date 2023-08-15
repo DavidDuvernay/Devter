@@ -1,6 +1,8 @@
 // import * as firebase from 'firebase';
 import { initializeApp } from 'firebase/app';
+import { Timestamp, collection, doc, getDocs, getFirestore, orderBy, query, setDoc } from "firebase/firestore";
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC9qyYJSkE33auN_I6v63wV8lGgvfFZu5c",
@@ -12,29 +14,68 @@ const firebaseConfig = {
   measurementId: "G-1ZECC5KLYZ"
 };
 
-initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+
+const db = getFirestore(app);
 
 const provider = new GithubAuthProvider();
 const auth = getAuth();
 
 const mapUserFromFirebaseAuthToUSer = (user) => {
-  const {displayName, email, photoURL} = user
+  const { displayName, email, photoURL, uid } = user
 
   return {
     avatar: photoURL,
     username: displayName,
-    email
+    email,
+    uid
   };
 };
 
 export const onAuthStateChanged = (onChange) => {
   return auth.onAuthStateChanged(user => {
     const normalizedUser = user ? mapUserFromFirebaseAuthToUSer(user) : null
-    
+
     onChange(normalizedUser)
   })
-}
+};
 
 export const loginWithGithub = async () => {
   return await signInWithPopup(auth, provider)
+};
+
+export const addDevit = async ({ avatar, content, img, userId, userName }) => {
+  return await setDoc(doc(collection(db, "devits")), {
+    avatar,
+    content,
+    img,
+    userId,
+    userName,
+    createdAt: Timestamp.fromDate(new Date()),
+    likesCount: 0,
+    sharedCount: 0
+  })
+};
+
+export const fetchLastDevits = async () => {
+  const collectionRef = collection(db, "devits")
+
+  return getDocs(query(collectionRef, orderBy("createdAt", "desc")))
+    .then(({ docs }) => {
+      return docs.map(doc => {
+        const data = doc.data();
+        const id = doc.id;
+        const { createdAt } = data;
+
+        return { ...data, id, createdAt: +createdAt.toDate() }
+      })
+    })
+};
+
+export const uploadImage = ( file ) => {
+  const storage = getStorage();
+  const storageRef = ref(storage, `images/${file.name}`)
+  const task = uploadBytesResumable(storageRef, file)
+
+  return task
 }
