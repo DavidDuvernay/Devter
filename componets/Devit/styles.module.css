@@ -4,6 +4,11 @@
   padding: 10px 15px;
 }
 
+.article:hover {
+  background: #f5f8fa;
+  cursor: pointer;
+}
+
 .div {
   padding-right: 10px;
 }
@@ -23,4 +28,12 @@
   height: auto;
   margin-top: 10px;
   width: 100%;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
