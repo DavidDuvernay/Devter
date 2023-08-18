@@ -1,6 +1,6 @@
 // import * as firebase from 'firebase';
 import { initializeApp } from 'firebase/app';
-import { Timestamp, collection, doc, getDocs, getFirestore, orderBy, query, setDoc } from "firebase/firestore";
+import { Timestamp, collection, doc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
@@ -57,22 +57,29 @@ export const addDevit = async ({ avatar, content, img, userId, userName }) => {
   })
 };
 
-export const fetchLastDevits = async () => {
-  const collectionRef = collection(db, "devits")
+const mapDevitFromFirebaseToDevitObject = doc => {
+  const data = doc.data();
+  const id = doc.id;
+  const { createdAt } = data;
 
-  return getDocs(query(collectionRef, orderBy("createdAt", "desc")))
-    .then(({ docs }) => {
-      return docs.map(doc => {
-        const data = doc.data();
-        const id = doc.id;
-        const { createdAt } = data;
-
-        return { ...data, id, createdAt: +createdAt.toDate() }
-      })
-    })
+  return { ...data, id, createdAt: +createdAt.toDate() }
 };
 
-export const uploadImage = ( file ) => {
+export const listenLatestDevits = (callback) => {
+  const collectionRef = collection(db, "devits");
+  const q = query(
+    collectionRef,
+    orderBy("createdAt", "desc"),
+    limit(20)
+  );
+
+  return onSnapshot(q, ({ docs }) => {
+    const newDevits = docs.map(mapDevitFromFirebaseToDevitObject);
+    callback(newDevits)
+  })
+};
+
+export const uploadImage = (file) => {
   const storage = getStorage();
   const storageRef = ref(storage, `images/${file.name}`)
   const task = uploadBytesResumable(storageRef, file)
