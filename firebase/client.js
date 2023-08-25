@@ -1,10 +1,14 @@
 // import * as firebase from 'firebase';
+import { initializeApp } from 'firebase/app';
+import firebaseConfig from './firebaseConfig';
+
+const app = initializeApp(firebaseConfig)
+
 import { Timestamp, collection, doc, getFirestore, limit, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { firebaseApp } from "@/pages/_app";
 
-const db = getFirestore(firebaseApp);
+const db = getFirestore(app);
 
 const provider = new GithubAuthProvider();
 const auth = getAuth();
