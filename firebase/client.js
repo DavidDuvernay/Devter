@@ -4,8 +4,6 @@ import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { firebaseApp } from "@/pages/_app";
 
-
-
 const db = getFirestore(firebaseApp);
 
 const provider = new GithubAuthProvider();
