@@ -13,7 +13,7 @@ export async function getStaticProps(ctx) {
   const { params, res } = ctx;
   const { id } = params;
 
-  return firestore
+  return await firestore
     .collection("devits")
     .doc(id)
     .get()
