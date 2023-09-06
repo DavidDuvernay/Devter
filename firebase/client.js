@@ -8,9 +8,9 @@ import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 let app = initializeApp(firebaseConfig);
 
-export const customInitApp = () => {
+export const customInitApp = async () => {
   if(getApps().length <= 0){
-    app = initializeApp(firebaseConfig)
+     return app = initializeApp(firebaseConfig)
   }
 }
 

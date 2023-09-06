@@ -14,8 +14,8 @@ export async function getStaticProps(ctx) {
   const { params, res } = ctx;
   const { id } = params;
 
-  customInitApp();
-  
+  await customInitApp();
+
   return await firestore
     .collection("devits")
     .doc(id)
