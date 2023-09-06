@@ -1,6 +1,6 @@
 import Devit from "@/componets/Devit";
 import { firestore } from "@/firebase/admin";
-import { customInitApp } from "@/firebase/client";
+import {  doc, getDoc, getFirestore } from "firebase/firestore";
 import { useRouter } from "next/router";
 
 export async function getStaticPaths() {
@@ -14,29 +14,25 @@ export async function getStaticProps(ctx) {
   const { params, res } = ctx;
   const { id } = params;
 
-  await customInitApp();
+  const db = getFirestore(firestore)
+  const docRef = doc(db, "devits", id)
+  const docSnap = await getDoc(docRef)
 
-  return await firestore
-    .collection("devits")
-    .doc(id)
-    .get()
-    .then((doc) => {
-      const data = doc.data();
-      const id = doc.id;
-      const { createdAt } = data;
-      const props = {
-        ...data,
-        id,
-        createdAt: +createdAt.toDate()
-      };
-      // console.log(props.createdAt)
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const id = docSnap.id;
+    const { createdAt } = data;
+    const props = {
+      ...data,
+      id,
+      createdAt: +createdAt.toDate()
+    };
 
-      return { props }
-    })
-    .catch(() => {
-      return { props: {} }
-    })
-  // return {props: firestore}
+    return { props }
+
+  } else {
+    return { props: {} }
+  }
 };
 
 export default function DevitPage(props) {
