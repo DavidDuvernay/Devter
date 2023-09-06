@@ -1,11 +1,18 @@
-import { initializeApp } from 'firebase/app';
+import { getApps, initializeApp } from 'firebase/app';
 import firebaseConfig from './firebaseConfig';
 
-const app = initializeApp(firebaseConfig)
 
 import { Timestamp, collection, doc, getFirestore, limit, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
+let app = initializeApp(firebaseConfig);
+
+export const customInitApp = () => {
+  if(getApps().length <= 0){
+    app = initializeApp(firebaseConfig)
+  }
+}
 
 const db = getFirestore(app);
 

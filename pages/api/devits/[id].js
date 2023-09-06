@@ -1,8 +1,11 @@
 import { firestore } from "@/firebase/admin"
+import { customInitApp } from "@/firebase/client";
 
 export default (request, response) => {
   const { query } = request;
   const { id } = query
+
+  customInitApp();
 
   firestore
     .collection("devits")
