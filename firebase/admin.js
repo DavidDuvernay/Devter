@@ -17,7 +17,7 @@ export const firestore = () => {
       ? initializeFirestore(app)
       : initializeFirestore(app)
 
-      return firestore()
+      return firestore
   }
   catch (e) {
 

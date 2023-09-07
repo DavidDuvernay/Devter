@@ -13,8 +13,8 @@ export async function getStaticPaths() {
 export async function getStaticProps(ctx) {
   const { params, res } = ctx;
   const { id } = params;
-
-  const db = getFirestore(firestore)
+  const  app = firestore()
+  const db = getFirestore(app)
   const docRef = doc(db, "devits", id)
   const docSnap = await getDoc(docRef)
 
