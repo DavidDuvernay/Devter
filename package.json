@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/kv": "^0.2.3",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "firebase": "^10.1.0",
